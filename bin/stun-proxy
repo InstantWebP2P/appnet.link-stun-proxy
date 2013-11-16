@@ -19,10 +19,10 @@ var help = [
     "  -k, --key           User key         Key for the registered user, MUST",
     "  -s  --secmode       ssl or acl       Secure mode: ssl or host-based ACL",
     "  -u, --user          USER             User to drop privileges once server socket is bound, Optional",
-    "  -h, --help                           You're staring at it"
+    "      --help                           You're staring at it"
 ].join('\n');
 
-if (argv.h || argv.help || Object.keys(argv).length === 2) {
+if (argv.help || Object.keys(argv).length === 2) {
   return util.puts(help);
 }
 
