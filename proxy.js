@@ -26,12 +26,14 @@ var vhostregex  = /([0-9]|[a-f]){32}\.vurl\./gi;
 var vpathregex  = /\/vurl\/([0-9]|[a-f]){32}/gi;
 var vtokenregex = /\/vtoken\/([0-9]|[a-f]){16}/gi;
 
-// vHost-based web proxy vURL like wxxxp.local.
-var vwperegex    = /w([0-9]|[a-f]){32}p/gi;
-var vhostwpregex = /w([0-9]|[a-f]){32}p\.local\./gi;
+// vHost-based STUN proxy vURL like sxxxp.local.
+// TBD... chained proxy
+///var vsperegex    = /s([0-9]|[a-f]){32}p/gi;
+///var vhostspregex = /s([0-9]|[a-f]){32}p\.local\./gi;
+var vhostspregex = /local\./gi;
 
-// vPath-based web proxy vURL like /local/wxxxp
-var vpathwpregex = /\/local\/w([0-9]|[a-f]){32}p/gi;
+// vPath-based STUN proxy vURL like /local/sxxxp
+///var vpathspregex = /\/local\/s([0-9]|[a-f]){32}p/gi;
 
 // URL regex
 var REGEX_URL  = new RegExp('(https?)://[a-z0-9-]+(\.[a-z0-9-]+)+(/?)', 'gi');
@@ -106,9 +108,9 @@ var Proxy = module.exports = function(options, fn){
 			    // prune vpath in req.url
 	            req.url = req.url.replace(vurle, '');
 	            
-	            // prune /local/wxxxp path
+	            // prune /local/sxxxp path
 	            // TBD ... cascade routing
-	            req.url = req.url.replace(vpathwpregex, '');
+	            ///req.url = req.url.replace(vpathspregex, '');
 			         
 			    if (debug) console.log('proxy for client with vpath:'+vurle);
 		    } else {
@@ -250,28 +252,31 @@ var Proxy = module.exports = function(options, fn){
 					            // 3.3.0
 					            // rewrite Content-Location in response
 					            if (response.headers['content-location']) {           
-			                        // - rewrite vhref host part by embedded 'wxxxp.local.'
-			                        // - rewrite vhref path part by embedded '/local/wxxxp'
+			                        // - rewrite vhref host part by embedded 'sxxxp.local.'
+			                        // - rewrite vhref path part by embedded '/local/sxxxp'
 			                        response.headers['content-location'] = response.headers['content-location'].replace(REGEX_URL, function(href){
-			                            if (href.match(vhostregex) && !(href.match(vhostwpregex))) {
+			                            if (href.match(vhostregex) && !(href.match(vhostspregex))) {
 			                                // calculate replaced string
 			                                return href.replace(vhostregex, function(vhost){
-			                                    var vhoste = vhost.match(vurleregex)[0];
+			                                    ///var vhoste = vhost.match(vurleregex)[0];
 			                                    
-			                                    return vhost+'w'+vhoste+'p'+'.local.';
+			                                    ///return vhost+'s'+vhoste+'p'+'.local.';
+			                                    return vhost+'local.';
 			                                });
-			                            } else if (href.match(vpathregex) && !(href.match(vpathwpregex))) {
+			                            } else if (href.match(vpathregex) /*&& !(href.match(vpathspregex))*/) {
 			                                // append local. subdomain
 			                                if (!(/^(https?:\/\/local\.)/gi).test(href)) {
 			                                    href = href.replace(/^(https?:\/\/)/gi, href.match(/^(https?:\/\/)/gi)[0]+'local.');
 			                                } 
+			                                return href;
 			                                
 			                                // calculate replaced string
+			                                /*
 			                                return href.replace(vpathregex, function(vpath){
 			                                    var vpathe = vpath.match(vurleregex)[0];
 			                                    
-			                                    return vpath+'/local/'+'w'+vpathe+'p';
-			                                });
+			                                    return vpath+'/local/'+'s'+vpathe+'p';
+			                                });*/
 			                            } else {
 			                                return href;
 			                            }
@@ -372,28 +377,30 @@ var Proxy = module.exports = function(options, fn){
 				                        ///console.log('before rewrite:'+JSON.stringify(resstr.match(REGEX_URL)));
 				                        									
 				                        // 3.3.3.4.1
-				                        // - rewrite vhref host part by embedded 'wxxxp.local.'
-				                        // - rewrite vhref path part by embedded '/local/wxxxp'
+				                        // - rewrite vhref host part by embedded 'sxxxp.local.'
+				                        // - rewrite vhref path part by embedded '/local/sxxxp'
 				                        resstr = resstr.replace(REGEX_URL, function(href){
-				                            if (href.match(vhostregex) && !(href.match(vhostwpregex))) {
+				                            if (href.match(vhostregex) && !(href.match(vhostspregex))) {
 				                                // calculate replaced string
 				                                return href.replace(vhostregex, function(vhost){
-				                                    var vhoste = vhost.match(vurleregex)[0];
+				                                    ///var vhoste = vhost.match(vurleregex)[0];
 				                                    
-				                                    return vhost+'w'+vhoste+'p'+'.local.';
+				                                    ///return vhost+'s'+vhoste+'p'+'.local.';
+				                                    return vhost+'local.';
 				                                });
-				                            } else if (href.match(vpathregex) && !(href.match(vpathwpregex))) {
+				                            } else if (href.match(vpathregex) /*&& !(href.match(vpathspregex))*/) {
 				                                // append local. subdomain
 				                                if (!(/^(https?:\/\/local\.)/gi).test(href)) {
 				                                    href = href.replace(/^(https?:\/\/)/gi, href.match(/^(https?:\/\/)/gi)[0]+'local.');
-				                                } 
+				                                }
+				                                return href;
 				                                
 				                                // calculate replaced string
-				                                return href.replace(vpathregex, function(vpath){
+				                                /*return href.replace(vpathregex, function(vpath){
 				                                    var vpathe = vpath.match(vurleregex)[0];
 				                                    
-				                                    return vpath+'/local/'+'w'+vpathe+'p';
-				                                });
+				                                    return vpath+'/local/'+'s'+vpathe+'p';
+				                                });*/
 				                            } else {
 				                                return href;
 				                            }
@@ -498,28 +505,30 @@ var Proxy = module.exports = function(options, fn){
 				                        ///console.log('before rewrite:'+JSON.stringify(resstr.match(REGEX_URL)));
 				                        									
 				                        // 3.3.5.5.1
-				                        // - rewrite vhref host part by embedded 'wxxxp.local.'
-				                        // - rewrite vhref path part by embedded '/local/wxxxp'
+				                        // - rewrite vhref host part by embedded 'sxxxp.local.'
+				                        // - rewrite vhref path part by embedded '/local/sxxxp'
 				                        resstr = resstr.replace(REGEX_URL, function(href){
-				                            if (href.match(vhostregex) && !(href.match(vhostwpregex))) {
+				                            if (href.match(vhostregex) && !(href.match(vhostspregex))) {
 				                                // calculate replaced string
 				                                return href.replace(vhostregex,  function(vhost){
-				                                    var vhoste = vhost.match(vurleregex)[0];
+				                                    ///var vhoste = vhost.match(vurleregex)[0];
 				                                    
-				                                    return vhost+'w'+vhoste+'p'+'.local.';
+				                                    ///return vhost+'s'+vhoste+'p'+'.local.';
+				                                    return vhost+'local.';
 				                                });
-				                            } else if (href.match(vpathregex) && !(href.match(vpathwpregex))) {
+				                            } else if (href.match(vpathregex) /*&& !(href.match(vpathspregex))*/) {
 				                                // append local. subdomain
 				                                if (!(/^(https?:\/\/local\.)/gi).test(href)) {
 				                                    href = href.replace(/^(https?:\/\/)/gi, href.match(/^(https?:\/\/)/gi)[0]+'local.');
-				                                } 
+				                                }
+				                                return href;
 				                                
 				                                // calculate replaced string
-				                                return href.replace(vpathregex, function(vpath){
+				                                /*return href.replace(vpathregex, function(vpath){
 				                                    var vpathe = vpath.match(vurleregex)[0];
 				                                    
-				                                    return vpath+'/local/'+'w'+vpathe+'p';
-				                                });
+				                                    return vpath+'/local/'+'s'+vpathe+'p';
+				                                });*/
 				                            } else {
 				                                return href;
 				                            }
@@ -549,29 +558,31 @@ var Proxy = module.exports = function(options, fn){
 					        // ...
 					        
 					        // 3.5.
-					        // rewrite 3XX redirection location by embedded 'wxxxp.local.'			    
+					        // rewrite 3XX redirection location by embedded 'sxxxp.local.'			    
 						    if ((response.statusCode >= 300 && response.statusCode < 400) &&
 						         typeof response.headers.location !== 'undefined') {					          
 					            response.headers.location = response.headers.location.replace(REGEX_URL, function(href){
-		                            if (href.match(vhostregex) && !(href.match(vhostwpregex))) {
+		                            if (href.match(vhostregex) && !(href.match(vhostspregex))) {
 		                                // calculate replaced string
 		                                return href.replace(vhostregex, function(vhost){
-		                                    var vhoste = vhost.match(vurleregex)[0];
+		                                    ///var vhoste = vhost.match(vurleregex)[0];
 		                                    
-		                                    return vhost+'w'+vhoste+'p'+'.local.';
+		                                    ///return vhost+'s'+vhoste+'p'+'.local.';
+		                                    return vhost+'local.';
 		                                });
-		                            } else if (href.match(vpathregex) && !(href.match(vpathwpregex))) {
+		                            } else if (href.match(vpathregex) /*&& !(href.match(vpathspregex))*/) {
 		                                // append local. subdomain
 		                                if (!(/^(https?:\/\/local\.)/gi).test(href)) {
 		                                    href = href.replace(/^(https?:\/\/)/gi, href.match(/^(https?:\/\/)/gi)[0]+'local.');
 		                                } 
+		                                return href;
 		                                
 		                                // calculate replaced string
-		                                return href.replace(vpathregex, function(vpath){
+		                                /*return href.replace(vpathregex, function(vpath){
 		                                    var vpathe = vpath.match(vurleregex)[0];
 		                                    
-		                                    return vpath+'/local/'+'w'+vpathe+'p';
-		                                });
+		                                    return vpath+'/local/'+'s'+vpathe+'p';
+		                                });*/
 				                    } else {
 		                                return href;
 		                            }
@@ -631,9 +642,9 @@ var Proxy = module.exports = function(options, fn){
 			    // prune vpath in req.url
 	            req.url = req.url.replace(vurle, '');
 			    
-			    // prune /local/wxxxp path
+			    // prune /local/sxxxp path
 	            // TBD ... cascade routing
-	            req.url = req.url.replace(vpathwpregex, '');
+	            ///req.url = req.url.replace(vpathspregex, '');
 	                 
 			    if (debug) console.log('proxy for client with vpath:'+vurle);
 		    } else {
