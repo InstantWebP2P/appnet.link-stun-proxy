@@ -1,7 +1,7 @@
 iwebpp.io-stun-proxy
 ====================
 
-Local proxy to setup iWebPP.io STUN session
+iWebPP.io local STUN proxy
 
 ### Features
 
