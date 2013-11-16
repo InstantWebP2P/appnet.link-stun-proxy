@@ -90,7 +90,7 @@ var Proxy = module.exports = function(options, fn){
 	
 	// 2.
 	// check ready
-	nmcln.on('ready', function(){
+	nmcln.once('ready', function(){
 	    // http proxy
 	    function httpxy(req, res, next) {
 		    var vurle, vstrs, urle = req.url;
