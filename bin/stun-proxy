@@ -1,0 +1,69 @@
+#!/usr/bin/env node
+
+//
+// Please install node-httpp binary in your system exec dir, like /usr/bin/ or /usr/local/bin/
+//
+
+var util  = require('util'),
+    argv = require('optimist').argv,
+    Proxy = require('../proxy');
+
+var help = [
+    "usage: stun-proxy [options] ",
+    "",
+    "Starts a stun-proxy server using the specified command-line options",
+    "",
+    "options:",
+    "  -p, --port          TCP Port         Server to listen",
+    "  -h, --http          0 or 1           0 for https proxy server, 1 for http server",
+    "  -k, --key           User key         Key for the registered user, MUST",
+    "  -s  --secmode       ssl or acl       Secure mode: ssl or host-based ACL",
+    "  -u, --user          USER             User to drop privileges once server socket is bound, Optional",
+    "  -h, --help                           You're staring at it"
+].join('\n');
+
+if (argv.h || argv.help || Object.keys(argv).length === 2) {
+  return util.puts(help);
+}
+
+var port = argv.p || argv.port,
+    http = argv.h || argv.http,
+    secmode = argv.s || argv.secmode,
+    user = argv.u || argv.user,
+    usrkey = argv.k || argv.key;
+
+//
+// Check arguments
+//
+port = port || 51688;
+var https = http ? false : true;
+
+//
+// Create the server with the specified options
+//
+var prxy = new Proxy({usrkey: usrkey, secmode: secmode, https: https}, function(err, proxy){
+    if (err || !proxy) {
+        console.log(err+',create proxy failed');
+        return 
+    }
+    var nmcln = prxy.nmcln;
+    
+    // start STUN proxy service
+    var https = require('https');
+    var srv = https.createServer(nmcln.secerts);
+    
+    srv.on('request', proxy.httpApp); 
+    srv.on('upgrade', proxy.wsApp);
+    
+    srv.listen(port);
+    console.log('STUN proxy server listen on port '+port);
+    console.log('Usrkey: '+nmcln.usrinfo.usrkey);
+});
+
+//
+// Drop privileges if requested
+//
+if (typeof user === 'string') {
+    process.setuid(user);
+}
+

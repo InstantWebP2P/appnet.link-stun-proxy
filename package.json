@@ -1,0 +1,35 @@
+{
+  "author": "Tom Zhou <iwebpp@gmail.com>",
+  "name": "iwebpp.io-stun-proxy",
+  "description": "iWebPP.io local STUN proxy",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/InstantWebP2P/iwebpp.io-stun-proxy.git"
+  },
+  "keywords": [
+    "p2p",
+    "http",
+    "httpp",
+    "proxy",
+    "iwebpp.io",
+    "stun-proxy",
+    "socks5",
+    "webp2p",
+    "vpn"
+  ],
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "main": "proxy",
+  "bin": {},
+  "dependencies": {
+    "iwebpp.io": "latest",
+    "httpp-proxy": "latest",
+    "jschardet": "1.0.x",
+    "iconv-lite": "0.2.x",
+    "connect": "2.8.x"
+    "commander": "~1.1.1",
+    "optimist": "0.3.x"
+  }
+}
