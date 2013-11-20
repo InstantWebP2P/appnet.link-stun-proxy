@@ -38,8 +38,8 @@ var vhostspregex = /local\./gi;
 // URL regex
 var REGEX_URL  = new RegExp('(https?)://[a-z0-9-]+(\.[a-z0-9-]+)+(/?)', 'gi');
 
-// debug level
-var debug = 0;
+// Debug level
+var Debug = 0;
 
 // Proxy class
 // a proxy will contain one iwebpp.io name-client
@@ -101,7 +101,7 @@ var Proxy = module.exports = function(options, fn){
 		    // - vpath like http(s)://local.iwebpp.com"/vurl/xxx"
 		    if (vstrs = req.headers.host.match(vhostregex)) {
 		        vurle = vstrs[0];
-		        if (debug) console.log('proxy for client with vhost:'+vurle);
+		        if (Debug) console.log('proxy for client with vhost:'+vurle);
 		    } else if (vstrs = req.url.match(vpathregex)) {
 			    vurle = vstrs[0];	       
 			    
@@ -112,7 +112,7 @@ var Proxy = module.exports = function(options, fn){
 	            // TBD ... cascade routing
 	            ///req.url = req.url.replace(vpathspregex, '');
 			         
-			    if (debug) console.log('proxy for client with vpath:'+vurle);
+			    if (Debug) console.log('proxy for client with vpath:'+vurle);
 		    } else {
 		        // invalid vURL
 	            console.error('invalid URL:'+urle);
@@ -121,7 +121,7 @@ var Proxy = module.exports = function(options, fn){
 	            return;
 		    }
 	
-		    if (debug) console.log('Http request proxy for client request.headers:'+JSON.stringify(req.headers)+
+		    if (Debug) console.log('Http request proxy for client request.headers:'+JSON.stringify(req.headers)+
 		                           ',url:'+urle+',vurl:'+vurle);
 		                           
 		    // 1.1
@@ -192,7 +192,7 @@ var Proxy = module.exports = function(options, fn){
 					    // 3.1
 					    // Handle request error
 					    self.webProxyCache[vurle].on('proxyError', function(err, req, res){
-					        if (debug) console.error(err+',proxy to '+urle);
+					        if (Debug) console.error(err+',proxy to '+urle);
 					        
 					        // send error back
 					        try {
@@ -216,7 +216,7 @@ var Proxy = module.exports = function(options, fn){
 		                // 3.2
 		                // Handle upgrade error
 					    self.webProxyCache[vurle].on('webSocketProxyError', function(err, req, socket, head){
-					        if (debug) console.error(err+',proxy to '+urle);
+					        if (Debug) console.error(err+',proxy to '+urle);
 					        
 					        // send error back
 					        try {
@@ -238,7 +238,7 @@ var Proxy = module.exports = function(options, fn){
 					    //--> custome rewrite logics ///////////////////////////////////////
 					    self.webProxyCache[vurle].on('proxyResponse', function(req, res, response){
 					        var prxself = this;
-					        if (debug) console.log('Proxy response,'+'req.headers:'+JSON.stringify(req.headers)+
+					        if (Debug) console.log('Proxy response,'+'req.headers:'+JSON.stringify(req.headers)+
 					                               '\n\n,response.statusCode:'+response.statusCode+',response.headers:'+JSON.stringify(response.headers));
 					        
 					        // 3.3
@@ -247,7 +247,7 @@ var Proxy = module.exports = function(options, fn){
 					            ('content-type' in response.headers) && 
 					            (response.headers['content-type'].match('text/html') ||
 					             response.headers['content-type'].match('text/xml'))) {
-					            if (debug) console.log('Proxy 200 response,'+'response.headers:'+JSON.stringify(response.headers));
+					            if (Debug) console.log('Proxy 200 response,'+'response.headers:'+JSON.stringify(response.headers));
 								            
 					            // 3.3.0
 					            // rewrite Content-Location in response
@@ -317,7 +317,7 @@ var Proxy = module.exports = function(options, fn){
 					            if (('content-encoding' in response.headers) &&
 					                (response.headers['content-encoding'].match('gzip') ||
 					                 response.headers['content-encoding'].match('deflate'))) {
-					                if (debug) console.log('Proxy ziped response,'+'response.headers:'+JSON.stringify(response.headers));
+					                if (Debug) console.log('Proxy ziped response,'+'response.headers:'+JSON.stringify(response.headers));
 					                 
 					                if (response.headers['content-encoding'].match('gzip')) {
 					                    _codec  = 'gzip';
@@ -329,7 +329,7 @@ var Proxy = module.exports = function(options, fn){
 					                    _encomp = zlib.createDeflate();
 					                }
 					               	                
-					                if (debug) console.log('\n\ngzip');
+					                if (Debug) console.log('\n\ngzip');
 					                
 				                    // 3.3.2.1
 				                    // override res.write and res.end
@@ -364,13 +364,13 @@ var Proxy = module.exports = function(options, fn){
 						                var chardet = Jschardet.detect(bigbuf);
 						                var charset = chardet.encoding;
 						                
-						                if (debug) console.log('charset:'+JSON.stringify(chardet));
+						                if (Debug) console.log('charset:'+JSON.stringify(chardet));
 						                		                
 						                // 3.3.3.3
 						                // decode content by charset
 						                resstr = Iconv.decode(bigbuf, charset);
 						                                
-				                        if (debug > 1) console.log('text response:'+resstr);
+				                        if (Debug > 1) console.log('text response:'+resstr);
 				                        
 				                        // 3.3.3.4
 				                        // rewrite text content            
@@ -407,7 +407,7 @@ var Proxy = module.exports = function(options, fn){
 				                        });
 				                        			                        
 				                        ///console.log('after rewrite:'+JSON.stringify(resstr.match(REGEX_URL)));
-						                if (debug > 1) console.log('overwrote text response:'+resstr);
+						                if (Debug > 1) console.log('overwrote text response:'+resstr);
 				                        
 				                        // 3.3.3.5
 				                        // compress overwrote text and send out
@@ -458,7 +458,7 @@ var Proxy = module.exports = function(options, fn){
 				                        res.emit('drain');
 				                    });
 					            } else {
-					                if (debug) console.log('\n\nnotzip');
+					                if (Debug) console.log('\n\nnotzip');
 					                
 					                // 3.3.5
 					                // in case handle Node.js-not-supported charset
@@ -492,13 +492,13 @@ var Proxy = module.exports = function(options, fn){
 						                var chardet = Jschardet.detect(bigbuf);
 						                var charset = chardet.encoding;
 						                
-						                if (debug) console.log('charset:'+JSON.stringify(chardet));
+						                if (Debug) console.log('charset:'+JSON.stringify(chardet));
 						                		                
 						                // 3.3.5.4
 						                // decode content by charset
 						                resstr = Iconv.decode(bigbuf, charset);
 						                
-						                if (debug > 1) console.log('text response:'+resstr);
+						                if (Debug > 1) console.log('text response:'+resstr);
 						                
 				                        // 3.3.5.5
 				                        // rewrite text content
@@ -535,7 +535,7 @@ var Proxy = module.exports = function(options, fn){
 				                        });
 				                        			                        
 				                        ///console.log('after rewrite:'+JSON.stringify(resstr.match(REGEX_URL)));
-						                if (debug > 1) console.log('overwrote text response:'+resstr);
+						                if (Debug > 1) console.log('overwrote text response:'+resstr);
 				                        
 				                        // 3.3.6
 				                        // send overwrote text out
@@ -635,7 +635,7 @@ var Proxy = module.exports = function(options, fn){
 		    // - vpath like http(s)://local.iwebpp.com"/vurl/xxx"
 		    if (vstrs = req.headers.host.match(vhostregex)) {
 		        vurle = vstrs[0];
-		        if (debug) console.log('proxy for client with vhost:'+vurle);
+		        if (Debug) console.log('proxy for client with vhost:'+vurle);
 		    } else if (vstrs = req.url.match(vpathregex)) {
 			    vurle = vstrs[0];	       
 			    
@@ -646,7 +646,7 @@ var Proxy = module.exports = function(options, fn){
 	            // TBD ... cascade routing
 	            ///req.url = req.url.replace(vpathspregex, '');
 	                 
-			    if (debug) console.log('proxy for client with vpath:'+vurle);
+			    if (Debug) console.log('proxy for client with vpath:'+vurle);
 		    } else {
 		        // invalid vURL
 	            // MUST not close socket, which will break other upgrade listener
@@ -654,7 +654,7 @@ var Proxy = module.exports = function(options, fn){
 	            return;
 		    }
 		    
-		    if (debug) console.log('Http request proxy for client request.headers:'+JSON.stringify(req.headers)+
+		    if (Debug) console.log('Http request proxy for client request.headers:'+JSON.stringify(req.headers)+
 		                           ',url:'+urle+',vurl:'+vurle);
 		                           
 		    // 1.1
@@ -719,7 +719,7 @@ var Proxy = module.exports = function(options, fn){
 			            
 					    // Handle request error
 					    self.webProxyCache[vurle].on('proxyError', function(err, req, res){
-					        if (debug) console.error(err+',proxy to '+urle);
+					        if (Debug) console.error(err+',proxy to '+urle);
 					        
 					        // send error back
 					        try {
@@ -742,7 +742,7 @@ var Proxy = module.exports = function(options, fn){
 		                
 		                // Handle upgrade error
 					    self.webProxyCache[vurle].on('webSocketProxyError', function(err, req, socket, head){
-					        if (debug) console.error(err+',proxy to '+urle);
+					        if (Debug) console.error(err+',proxy to '+urle);
 					        
 					        // send error back
 					        try {
