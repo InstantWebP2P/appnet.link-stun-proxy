@@ -172,7 +172,14 @@ var Proxy = module.exports = function(options, fn){
 			                  
 			                target: {
 			                    httpp: true,
-			                    https: routing.secmode, 
+			                    
+			                    // set SSL related info
+			                    https: routing.secmode ? {
+	                                rejectUnauthorized: self.secerts && self.secerts.rejectUnauthorized, 
+	                                                ca: self.secerts && self.secerts.ca, 
+	                                               key: self.secerts && self.secerts.key,
+	                                              cert: self.secerts && self.secerts.cert
+	                            } : false, 
 			                    
 			                    host: dstip,
 			                    port: dstport,
@@ -700,7 +707,14 @@ var Proxy = module.exports = function(options, fn){
 			                  
 			                target: {
 			                    httpp: true,
-			                    https: routing.secmode, 
+			                    
+			                    // set SSL related info
+			                    https: routing.secmode ? {
+	                                rejectUnauthorized: self.secerts && self.secerts.rejectUnauthorized, 
+	                                                ca: self.secerts && self.secerts.ca, 
+	                                               key: self.secerts && self.secerts.key,
+	                                              cert: self.secerts && self.secerts.cert
+	                            } : false, 
 			                    
 			                    host: dstip,
 			                    port: dstport,
