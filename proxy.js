@@ -5,7 +5,6 @@ var WEBPP = require('iwebpp.io'),
     vURL = WEBPP.vURL,
     URL = require('url'),
     NET = require('net'),
-    httpps = require('httpps'),
     url = require('url'),
     httppProxy = require('httpp-proxy'),
     zlib = require('zlib'),
@@ -175,10 +174,10 @@ var Proxy = module.exports = function(options, fn){
 			                    
 			                    // set SSL related info
 			                    https: routing.secmode ? {
-	                                rejectUnauthorized: self.secerts && self.secerts.rejectUnauthorized, 
-	                                                ca: self.secerts && self.secerts.ca, 
-	                                               key: self.secerts && self.secerts.key,
-	                                              cert: self.secerts && self.secerts.cert
+	                                rejectUnauthorized: false,///nmcln.secerts && nmcln.secerts.rejectUnauthorized, 
+	                                                ca: nmcln.secerts && nmcln.secerts.ca, 
+	                                               key: nmcln.secerts && nmcln.secerts.key,
+	                                              cert: nmcln.secerts && nmcln.secerts.cert
 	                            } : false, 
 			                    
 			                    host: dstip,
@@ -710,10 +709,10 @@ var Proxy = module.exports = function(options, fn){
 			                    
 			                    // set SSL related info
 			                    https: routing.secmode ? {
-	                                rejectUnauthorized: self.secerts && self.secerts.rejectUnauthorized, 
-	                                                ca: self.secerts && self.secerts.ca, 
-	                                               key: self.secerts && self.secerts.key,
-	                                              cert: self.secerts && self.secerts.cert
+	                                rejectUnauthorized: false,///nmcln.secerts && nmcln.secerts.rejectUnauthorized, 
+	                                                ca: nmcln.secerts && nmcln.secerts.ca, 
+	                                               key: nmcln.secerts && nmcln.secerts.key,
+	                                              cert: nmcln.secerts && nmcln.secerts.cert
 	                            } : false, 
 			                    
 			                    host: dstip,

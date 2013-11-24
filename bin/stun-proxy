@@ -49,8 +49,13 @@ var prxy = new Proxy({usrkey: usrkey, secmode: secmode, https: https}, function(
     var nmcln = prxy.nmcln;
     
     // start STUN proxy service
+    var fs = require('fs');
     var https = require('https');
-    var srv = https.createServer(nmcln.secerts);
+    var options = {
+         key: fs.readFileSync(__dirname+'/../certs/key.pem'),
+        cert: fs.readFileSync(__dirname+'/../certs/cert.pem')
+    };
+    var srv = https.createServer(options);
     
     srv.on('request', proxy.httpApp); 
     srv.on('upgrade', proxy.wsApp);
