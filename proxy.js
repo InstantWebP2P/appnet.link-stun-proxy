@@ -129,8 +129,8 @@ var Proxy = module.exports = function(options, fn){
 	        req.url = req.url.replace(vtokenregex, '');         
 	        
 	        // 1.2
-	        // remove local. subdomain
-	        // TBD...         
+            // remove local. subdomain
+            req.headers.host = req.headers.host.replace(vhostspregex, '');
 		    
 		    // 2.
 			// get peer info by vURL
@@ -666,7 +666,11 @@ var Proxy = module.exports = function(options, fn){
 		    // 1.1
 	        // !!! rewrite req.url to remove vToken parts
 	        // TBD ... vToken check
-	        req.url = req.url.replace(vtokenregex, '');                      
+	        req.url = req.url.replace(vtokenregex, '');
+	                              
+	        // 1.2
+            // remove local. subdomain
+            req.headers.host = req.headers.host.replace(vhostspregex, '');
 		    
 		    // 2.
 			// get peer info by vURL
