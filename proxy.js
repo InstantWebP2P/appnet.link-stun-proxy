@@ -165,7 +165,7 @@ var Proxy = module.exports = function(options, fn){
 			                    
 			                    // set SSL related info
 			                    https: routing.secmode ? {
-	                                rejectUnauthorized: false,///nmcln.secerts && nmcln.secerts.rejectUnauthorized, 
+	                                rejectUnauthorized: nmcln.secerts && nmcln.secerts.rejectUnauthorized, 
 	                                                ca: nmcln.secerts && nmcln.secerts.ca, 
 	                                               key: nmcln.secerts && nmcln.secerts.key,
 	                                              cert: nmcln.secerts && nmcln.secerts.cert
@@ -704,7 +704,7 @@ var Proxy = module.exports = function(options, fn){
 			                    
 			                    // set SSL related info
 			                    https: routing.secmode ? {
-	                                rejectUnauthorized: false,///nmcln.secerts && nmcln.secerts.rejectUnauthorized, 
+	                                rejectUnauthorized: nmcln.secerts && nmcln.secerts.rejectUnauthorized, 
 	                                                ca: nmcln.secerts && nmcln.secerts.ca, 
 	                                               key: nmcln.secerts && nmcln.secerts.key,
 	                                              cert: nmcln.secerts && nmcln.secerts.cert
