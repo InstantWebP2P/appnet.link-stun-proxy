@@ -113,13 +113,17 @@ var Proxy = module.exports = function(options, fn){
 	
 		    if (Debug) console.log('Http request proxy for client request.headers:'+JSON.stringify(req.headers)+
 		                           ',url:'+urle+',vurl:'+vurle);
-		                           
+		     
 		    // 1.1
+		    // check vURL if STUNable
+		    // TBD ...
+		                           
+		    // 1.2
 	        // !!! rewrite req.url to remove vToken parts
 	        // TBD ... vToken check
 	        req.url = req.url.replace(vURL.regex_vtoken, '');         
 	        
-	        // 1.2
+	        // 1.3
             // remove vlocal. subdomain
             req.headers.host = req.headers.host.replace(vhostspregex, '');
 		    
@@ -653,13 +657,17 @@ var Proxy = module.exports = function(options, fn){
 		    
 		    if (Debug) console.log('Http request proxy for client request.headers:'+JSON.stringify(req.headers)+
 		                           ',url:'+urle+',vurl:'+vurle);
-		                           
+
 		    // 1.1
+		    // check vURL if STUNable
+		    // TBD ...
+		    		                           
+		    // 1.2
 	        // !!! rewrite req.url to remove vToken parts
 	        // TBD ... vToken check
 	        req.url = req.url.replace(vURL.regex_vtoken, '');
 	                              
-	        // 1.2
+	        // 1.3
             // remove vlocal. subdomain
             req.headers.host = req.headers.host.replace(vhostspregex, '');
 		    
