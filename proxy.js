@@ -82,7 +82,7 @@ var Proxy = module.exports = function(options, fn){
 	nmcln.once('ready', function(){
 	    // http proxy
 	    function httpxy(req, res, next) {
-		    var vurle, vstrs, urle = req.url;
+		    var vurle, vstrs, hoste = req.headers.host, urle = req.url;
 		    
 		    // 1.
 		    // match vURL pattern:
@@ -235,7 +235,7 @@ var Proxy = module.exports = function(options, fn){
 		                });
 		                
 					    // Handle custom rewrite logics on response for reverse proxy
-					    //--> custome rewrite logics ///////////////////////////////////////
+					    //--> custom rewrite logics ///////////////////////////////////////
 					    self.webProxyCache[vurle].on('proxyResponse', function(req, res, response){
 					        var prxself = this;
 					        if (Debug) console.log('Proxy response,'+'req.headers:'+JSON.stringify(req.headers)+
@@ -589,17 +589,20 @@ var Proxy = module.exports = function(options, fn){
 		                        });
 						    }
 					    });
-					    //<-- custome rewrite logics ///////////////////////////////////////
+					    //<-- custom rewrite logics ///////////////////////////////////////
 			        }
 			        
 			        // 5.
 			        // traverse STUN session to peer
 			        nmcln.trvsSTUN(vurle, function(err, stun){
 			            if (err || !stun) {
-				            // STUN not availabe
-		                    res.writeHead(400);
+				            // STUN not available, fall back to TURN
+		                    /*res.writeHead(400);
 		                    res.end('STUN not available, please use TURN');
-		                    console.error('STUN not available:'+urle);
+		                    console.error('STUN not available:'+urle);*/
+                            res.writeHead(301, {'location': 'https://'+hoste.replace('vlocal.', '')+urle;});
+						    res.end();
+                            console.log('fall back to TURN');
 			            } else {
 			                // 6.
 						    // proxy target
@@ -627,7 +630,7 @@ var Proxy = module.exports = function(options, fn){
 	    
 	    // websocket proxy
 	    function wspxy(req, socket, head) {
-		    var vurle, vstrs, urle = req.url;
+		    var vurle, vstrs, hoste = req.headers.host, urle = req.url;
 		    
 		    // 1.
 		    // match vURL pattern:
@@ -780,9 +783,10 @@ var Proxy = module.exports = function(options, fn){
 			        		    
 			        // 5.
 			        // traverse STUN session to peer
+                    // notes: the step may needless because http proxy should did it
 			        nmcln.trvsSTUN(vurle, function(err, stun){
 			            if (err || !stun) {
-				            // STUN not availabe
+				            // STUN not available, try to fall back to TURN
 		                    socket.end('STUN not available, please use TURN');
 		                    console.error('STUN not available:'+urle);
 			            } else {
