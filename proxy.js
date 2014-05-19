@@ -600,7 +600,7 @@ var Proxy = module.exports = function(options, fn){
 		                    /*res.writeHead(400);
 		                    res.end('STUN not available, please use TURN');
 		                    console.error('STUN not available:'+urle);*/
-                            res.writeHead(301, {'location': 'https://'+hoste.replace('vlocal.', '')+urle;});
+                            res.writeHead(301, {'location': 'https://'+hoste.replace('vlocal.', '')+urle});
 						    res.end();
                             console.log('fall back to TURN');
 			            } else {
