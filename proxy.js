@@ -1,6 +1,8 @@
 // Copyright (c) 2013 Tom Zhou<iwebpp@gmail.com>
 
-var WEBPP = require('iwebpp.io'),
+var eventEmitter = require('events').EventEmitter,
+    util = require('util'),
+    WEBPP = require('iwebpp.io'),
     SEP = WEBPP.SEP,
     vURL = WEBPP.vURL,
     URL = require('url'),
@@ -40,6 +42,9 @@ var Proxy = module.exports = function(options, fn){
     var self = this;
        
     if (!(this instanceof Proxy)) return new Proxy(options, fn);
+    
+    // super constructor
+    eventEmitter.call(self);
     
     if (typeof options == 'function') {
         fn = options;
@@ -801,14 +806,19 @@ var Proxy = module.exports = function(options, fn){
     
         // 8.
 	    // pass STUN proxy App
-	    fn(null, {httpApp: appHttp, wsApp: wspxy});
+	    var papps = {httpApp: appHttp, wsApp: wspxy};
+	    if (fn) fn(null, papps);
+	    self.emit('ready', papps);
 	});
 	
 	// 1.2
 	// check error
 	nmcln.on('error', function(err){
 	    console.log('name-client create failed:'+JSON.stringify(err));
-	    fn(err);
+	    if (fn) fn(err);
+	    self.emit('error', err);
 	});
 };
+
+util.inherits(Proxy, eventEmitter);
 
