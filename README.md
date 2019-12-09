@@ -10,9 +10,8 @@ iWebPP.io local STUN proxy
 * high udp data transfer performance
 
 ### Install
-* npm install iwebpp.io-stun-proxy, or git clone https://github.com/InstantWebP2P/iwebpp.io-stun-proxy.git && cd iwebpp.io-stun-proxy && npm install
-* iwebpp.io-stun-proxy depend on node-httpp, please npm install httpp-binary.if the binary didn't work, just build it from source:
-  https://github.com/InstantWebP2P/node-httpp
+* npm install iwebpp.io-stun-proxy, or git clone [iwebpp.io-stun-proxy](https://github.com/InstantWebP2P/iwebpp.io-stun-proxy.git) && cd iwebpp.io-stun-proxy && npm install
+* iwebpp.io-stun-proxy depend on node-httpp, please npm install httpp-binary.if the binary didn't work, just build it from [node-httpp repo](https://github.com/InstantWebP2P/node-httpp)
 
 ### Usage/API
 * for demo, refer to demo/webproxy.js. to start it, just node demo/webproxy.js
