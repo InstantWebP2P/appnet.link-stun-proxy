@@ -11,7 +11,8 @@ iWebPP.io local STUN proxy
 
 ### Install
 * npm install iwebpp.io-stun-proxy, or git clone [iwebpp.io-stun-proxy](https://github.com/InstantWebP2P/iwebpp.io-stun-proxy.git) && cd iwebpp.io-stun-proxy && npm install
-* iwebpp.io-stun-proxy depend on node-httpp, please npm install httpp-binary.if the binary didn't work, just build it from [node-httpp repo](https://github.com/InstantWebP2P/node-httpp)
+* iwebpp.io-stun-proxy depend on node-httpp, please build it from repo [node-httpp](https://github.com/InstantWebP2P/node-httpp)
+* setup your own iWebPP.io backend controller services refer to [iWebPP.io-controller](https://github.com/InstantWebP2P/iwebpp.io-controller)
 
 ### Usage/API
 * for demo, refer to demo/webproxy.js. to start it, just node demo/webproxy.js
