@@ -67,11 +67,11 @@ var Proxy = module.exports = function(options, fn){
         srvinfo: {
             timeout: 20,
             endpoints: (options && options.endpoints) || [
-                {ip: 'iwebpp.com', port: 51686},
-                {ip: 'iwebpp.com', port: 51868}
+                {ip: 'httpp.aiworkspace.com', port: 51686},
+                {ip: 'httpp.aiworkspace.com', port: 51868}
             ],
             turn: (options && options.turn) || [
-                {ip: 'iwebpp.com', agent: 51866, proxy: 51688}
+                {ip: 'httpp.aiworkspace.com', agent: 51866, proxy: 51688}
             ]
         },
         
@@ -91,8 +91,8 @@ var Proxy = module.exports = function(options, fn){
 		    
 		    // 1.
 		    // match vURL pattern:
-		    // - vhost like http(s)://"xxx.vurl."vlocal.iwebpp.com
-		    // - vpath like http(s)://vlocal.iwebpp.com"/vurl/xxx"
+		    // - vhost like http(s)://"xxx.vurl."vlocal.httpp.aiworkspace.com
+		    // - vpath like http(s)://vlocal.httpp.aiworkspace.com"/vurl/xxx"
 		    if (vstrs = req.headers.host.match(vURL.regex_vhost)) {
 		        vurle = vstrs[0];
 		        if (Debug) console.log('proxy for client with vhost:'+vurle);
@@ -639,8 +639,8 @@ var Proxy = module.exports = function(options, fn){
 		    
 		    // 1.
 		    // match vURL pattern:
-		    // - vhost like http(s)://"xxx.vurl."vlocal.iwebpp.com
-		    // - vpath like http(s)://vlocal.iwebpp.com"/vurl/xxx"
+		    // - vhost like http(s)://"xxx.vurl."vlocal.httpp.aiworkspace.com
+		    // - vpath like http(s)://vlocal.httpp.aiworkspace.com"/vurl/xxx"
 		    if (vstrs = req.headers.host.match(vURL.regex_vhost)) {
 		        vurle = vstrs[0];
 		        if (Debug) console.log('proxy for client with vhost:'+vurle);

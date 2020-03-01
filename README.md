@@ -18,10 +18,9 @@ iWebPP.io local STUN proxy
 * for demo, refer to demo/webproxy.js. to start it, just node demo/webproxy.js
 * for utility, refer to bin/stun-proxy. to start it, just node bin/stun-proxy --key usrkey(MUST) --port 51688
 * after start local proxy server, just embed 'vlocal.' as sub-domain in original vURL, then open it in web browser, 
-  like original vURL is https://p95a6d9bd2d1f1c87p.7c80afab98c2bf81be92ea66707a3427.vurl.iwebpp.com:51688/,
-  modified vURL is https://p95a6d9bd2d1f1c87p.7c80afab98c2bf81be92ea66707a3427.vurl.vlocal.iwebpp.com:51688/
+  like original vURL is https://p95a6d9bd2d1f1c87p.7c80afab98c2bf81be92ea66707a3427.vurl.httpp.aiworkspace.com:51688/,
+  modified vURL is https://p95a6d9bd2d1f1c87p.7c80afab98c2bf81be92ea66707a3427.vurl.vlocal.httpp.aiworkspace.com:51688/
 
-<br/>
 ### License
 
 (The MIT License)

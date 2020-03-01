@@ -2,7 +2,7 @@
   "author": "Tom Zhou <iwebpp@gmail.com>",
   "name": "iwebpp.io-stun-proxy",
   "description": "iWebPP.io local STUN proxy",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/InstantWebP2P/iwebpp.io-stun-proxy.git"
@@ -28,8 +28,8 @@
     "httpp-proxy": "latest",
     "jschardet": "1.0.x",
     "iconv-lite": "0.2.x",
-    "connect": "2.8.x",
-    "commander": "~1.1.1",
+    "connect": "2.30.2",
+    "commander": "1.1.1",
     "optimist": "0.3.x"
   }
 }

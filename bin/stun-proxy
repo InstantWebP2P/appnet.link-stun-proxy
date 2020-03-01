@@ -26,11 +26,11 @@ if (argv.help || Object.keys(argv).length === 2) {
   return util.puts(help);
 }
 
-var port = argv.p || argv.port,
-    http = argv.h || argv.http,
+var port    = argv.p || argv.port,
+    http    = argv.h || argv.http,
     secmode = argv.s || argv.secmode,
-    user = argv.u || argv.user,
-    usrkey = argv.k || argv.key;
+    user    = argv.u || argv.user,
+    usrkey  = argv.k || argv.key;
 
 //
 // Check arguments
