@@ -75,8 +75,8 @@ var Proxy = module.exports = function(options, fn){
             ]
         },
         
-        // vURL mode: vhost-based
-        vmode: vURL.URL_MODE_HOST, 
+        // vURL mode: vpath-based
+        URL_MODE_PATH: vURL.URL_MODE_HOST, 
         
         // secure mode
         secmode: (options && options.secmode === 'ssl') ? SEP.SEP_SEC_SSL : SEP.SEP_SEC_SSL_ACL_HOST
