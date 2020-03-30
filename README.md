@@ -1,7 +1,7 @@
-iwebpp.io-stun-proxy
+appnet.io-stun-proxy
 ====================
 
-iWebPP.io local STUN proxy
+AppNet.io local STUN proxy
 
 ### Features
 
