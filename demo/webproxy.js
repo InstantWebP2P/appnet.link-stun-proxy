@@ -1,4 +1,4 @@
-// Copyright (c) 2013 Tom Zhou<iwebpp@gmail.com>
+// Copyright (c) 2013 Tom Zhou<appnet.link@gmail.com>
 var Proxy = require('../proxy');
 
 var prxy = new Proxy(function(err, proxy){
