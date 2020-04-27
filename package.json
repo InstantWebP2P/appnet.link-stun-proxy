@@ -24,8 +24,8 @@
   "main": "proxy",
   "bin": {},
   "dependencies": {
-    "appnet.io": "latest",
-    "httpp-proxy": "latest",
+    "appnet.io": "3.3.6",
+    "httpp-proxy": "0.10.3",
     "jschardet": "1.0.x",
     "iconv-lite": "0.2.x",
     "connect": "2.30.2",
