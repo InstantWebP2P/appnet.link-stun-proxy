@@ -2,7 +2,7 @@
 
 var eventEmitter = require('events').EventEmitter,
     util = require('util'),
-    WEBPP = require('appnet.io'),
+    WEBPP = require('appnet.link'),
     SEP = WEBPP.SEP,
     vURL = WEBPP.vURL,
     URL = require('url'),
@@ -33,7 +33,7 @@ var vhostspregex = /(s([0-9]|[a-f]){32}p-)*vlocal\./gi;
 var Debug = 0;
 
 // Proxy class
-// a proxy will contain one appnet.io name-client
+// a proxy will contain one appnet.link name-client
 // - options: user custom parameters, like {secmode: ..., usrkey: ..., domain: ..., endpoints: ..., turn: ...}
 // - options.secmode: ssl, enable ssl/https; acl, enable ssl/https,host-based ACL
 // - options.https: true or false, true for https proxy server, false for http proxy server

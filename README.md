@@ -1,7 +1,7 @@
-appnet.io-stun-proxy
+appnet.link-stun-proxy
 ====================
 
-AppNet.io local STUN proxy
+AppNet.link local STUN proxy
 
 ### Features
 
@@ -10,9 +10,9 @@ AppNet.io local STUN proxy
 * high udp data transfer performance
 
 ### Install
-* npm install appnet.io-stun-proxy, or git clone [appnet.io-stun-proxy](https://github.com/InstantWebP2P/appnet.io-stun-proxy.git) && cd appnet.io-stun-proxy && npm install
-* appnet.io-stun-proxy depend on node-httpp, please build it from repo [node-httpp](https://github.com/InstantWebP2P/node-httpp)
-* setup your own AppNet.io backend controller services refer to [AppNet.io-controller](https://github.com/InstantWebP2P/appnet.io-controller)
+* npm install appnet.link-stun-proxy, or git clone [appnet.link-stun-proxy](https://github.com/InstantWebP2P/appnet.link-stun-proxy.git) && cd appnet.link-stun-proxy && npm install
+* appnet.link-stun-proxy depend on node-httpp, please build it from repo [node-httpp](https://github.com/InstantWebP2P/node-httpp)
+* setup your own AppNet.link backend controller services refer to [AppNet.link-controller](https://github.com/InstantWebP2P/appnet.link-controller)
 
 ### Usage/API
 * for demo, refer to demo/webproxy.js. to start it, just node demo/webproxy.js
